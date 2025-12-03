@@ -54,7 +54,7 @@ class _ManagerSignupPageState extends State<ManagerSignupPage> {
         'createdAt': FieldValue.serverTimestamp()
       });
 
-      await FirebaseFirestore.instance.collection('managers').doc(userID).set({
+      await FirebaseFirestore.instance.collection('users').doc(userID).set({
         'fullName': fullName,
         'email': email,
         'boardingHouseId': boardingHouse.id,

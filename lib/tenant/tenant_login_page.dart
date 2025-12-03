@@ -17,6 +17,7 @@ class _TenantLoginPageState extends State<TenantLoginPage> {
   bool _obscureText = true;
   bool _isLoading = false;
 
+
   Future <void> handleLogin() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -31,7 +32,9 @@ class _TenantLoginPageState extends State<TenantLoginPage> {
       );
 
       if(!mounted) return;
-      Navigator.pushReplacementNamed(context, '/tenant-unconfirmed');
+
+
+      Navigator.pushReplacementNamed(context, '/tenant-dashboard');
       } on FirebaseAuthException catch (e){
         String displayMessage;
         if (e.code == 'network-request-failed'){

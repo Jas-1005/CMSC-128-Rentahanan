@@ -22,7 +22,33 @@ class _TenantSignupPageState extends State<TenantSignupPage> {
   bool isTenantConfirmed = false;
   bool _obscureText = true;
   bool _isLoading = false;
+  String boardingHouseID = '';
 
+  @override
+  void initState() {
+    super.initState();// Start listening and loading when widget initializes
+  }
+
+  Future <void> _verifyBHCodeAndFetchBHCode(String tenantShareCode) async {
+    try {
+      QuerySnapshot bHCodeQuery = await FirebaseFirestore.instance
+          .collection('boardingHouses')
+          .where('shareCode', isEqualTo: tenantShareCode)
+          .limit(1)
+          .get();
+
+      if (bHCodeQuery.docs.isNotEmpty) {
+        var bHCodeSnapshot = bHCodeQuery.docs.first;
+        print("Boarding house ID: ${bHCodeSnapshot.id}");
+        boardingHouseID = bHCodeSnapshot.id;
+      } else {
+        print('No bh found with code: $tenantShareCode');
+      }
+    } catch (e) {
+      print("Error querying Firestore: $e");
+      return null;
+    }
+  }
 
   Future <void> handleSignup() async {
     if (!_formKey.currentState!.validate()) return;
@@ -41,14 +67,16 @@ class _TenantSignupPageState extends State<TenantSignupPage> {
       String userID = userCredential.user!.uid;
 
       await FirebaseFirestore.instance.collection('users').doc(userID).set({
+        'boardingHouseID': boardingHouseID,
         'fullName': fullName,
         'email': email,
-        'boardingHouseCode': boardingHouseCode,
         'contactNumber': contactNumber,
         'confirmedByManager': isTenantConfirmed,
         'role': role,
         'createdAt': FieldValue.serverTimestamp(),
       });
+
+
 
       if(!mounted) return;
       Navigator.pushReplacementNamed(context, '/tenant-unconfirmed');
@@ -86,7 +114,7 @@ class _TenantSignupPageState extends State<TenantSignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Tenant Login')),
+      appBar: AppBar(title: const Text('Tenant Signup')),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Form (
@@ -147,7 +175,7 @@ class _TenantSignupPageState extends State<TenantSignupPage> {
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(6),   // optional: limit length
                 ],
-                onSaved: (value) => boardingHouseCode = value!,
+                onSaved: (value) => _verifyBHCodeAndFetchBHCode(value!),
               ),
               const SizedBox(height: 20),
               TextFormField(
