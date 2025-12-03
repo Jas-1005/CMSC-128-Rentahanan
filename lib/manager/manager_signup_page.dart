@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +23,11 @@ class _ManagerSignupPageState extends State<ManagerSignupPage> {
   bool _obscureText = true;
   bool _isLoading = false;
 
+  String generateShareCode() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final rand = Random();
+    return List.generate(6, (_) => chars[rand.nextInt(chars.length)]).join();
+  }
 
   Future <void> handleSignup() async {
     if (!_formKey.currentState!.validate()) return;
@@ -38,10 +45,19 @@ class _ManagerSignupPageState extends State<ManagerSignupPage> {
 
       String userID = userCredential.user!.uid;
 
+      final shareCode = generateShareCode();
+      final boardingHouse = await FirebaseFirestore.instance
+          .collection('boardingHouses')
+          .add({
+        'name': boardingHouseName,
+        'shareCode': shareCode,
+        'createdAt': FieldValue.serverTimestamp()
+      });
+
       await FirebaseFirestore.instance.collection('managers').doc(userID).set({
         'fullName': fullName,
         'email': email,
-        'boardingHouseName': boardingHouseName,
+        'boardingHouseId': boardingHouse.id,
         'contactNumber': contactNumber,
         'createdAt': FieldValue.serverTimestamp(),
       });
