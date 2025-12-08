@@ -12,13 +12,15 @@ class ManagerDashboardPage extends StatefulWidget {
 
 class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
   static final List<Map<String, dynamic>> menuItems = [
-    {'icon': Icons.payment, 'label': 'Manage Tenants', 'route': '/manager-manage-tenants'},
-    {'icon': Icons.payments, 'label': 'View Payment', 'route': '/manager-view-payment'},
-    {'icon': Icons.house, 'label': 'About', 'route': '/manager-about'},
+    {'image': 'assets/images/manageTenants.png', 'label': 'Manage\nTenants', 'route': '/manager-manage-tenants'},
+    {'image': 'assets/images/inputDues.png', 'label': 'Input\nDues', 'route': '/manager-view-payment'}, //theres a problem with imput tenant dues
+    {'image': 'assets/images/approvePayments.png', 'label': 'Approve\nPayment', 'route': '/manager-tenant-requests'},
+    {'image': 'assets/images/aboutPage.png', 'label': 'About', 'route': '/manager-about'}, //where is about page?
+    {'image': 'assets/images/reportsPage.png', 'label': 'Reports', 'route': '/manager-view-reports'},
   ];
 
-    String managerName = "";
-    bool _isLoading = true;
+  String managerName = "";
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -81,186 +83,375 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
       });
     }
   }
+// two cards for announcements and dashboard overview
+  Widget softCard({required Widget child}) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 12,
+            offset: const Offset(0, 6),
+          )
+        ],
+      ),
+      child: child,
+    );
+  }
 
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Manager Dashboard')),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget dashboardOverviewCard(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(32),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.12),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          // top brown section
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(24),
+            decoration: const BoxDecoration(
+              color: Color(0xFF3A2212),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(32),
+                topRight: Radius.circular(32),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Hello, Manager $managerName!'),
-                Icon(
-                  Icons.notifications,
-                  size: 30,
+                const Text(
+                  "Dashboard Overview:",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    fontFamily: 'Urbanist',
+                  ),
+                ),
+                const SizedBox(height: 22),
+
+                // Row 1
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text("Total Tenants",
+                            style: TextStyle(
+                                color: Colors.white70,
+                              fontFamily: 'Urbanist',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            )),
+                        SizedBox(height: 6),
+                        //sample only
+                        Text(
+                          "20",
+                          style: TextStyle(
+                              fontSize: 28,
+                              fontFamily: 'Urbanist',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
+                        ),
+                      ],
+                    ),
+
+                    ElevatedButton(
+                      onPressed: () =>
+                          Navigator.pushNamed(context, '/manager-add-tenant'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: const Text(
+                          "+ Add Tenant",
+                        style: TextStyle(
+                          fontFamily: 'Urbanist',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 22),
+
+                // Row 2
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Pending Payments",
+                            style: TextStyle(
+                                color: Colors.white70,
+                              fontFamily: 'Urbanist',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            )),
+                        SizedBox(height: 6),
+                        //sample only
+                        Text(
+                          "₱18,450",
+                          style: TextStyle(
+                              fontSize: 28,
+                              fontFamily: 'Urbanist',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Pending Reports",
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 16,
+                              fontFamily: 'Urbanist',
+                              fontWeight: FontWeight.w600,
+                            )),
+                        SizedBox(height: 6),
+                        //sample only
+                        Text(
+                          "5",
+                          style: TextStyle(
+                              fontSize: 28,
+                              fontFamily: 'Urbanist',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 2),
-                borderRadius: BorderRadius.circular(12),
+          ),
+
+          // bottom white section
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(32),
+                bottomRight: Radius.circular(32),
               ),
-              padding: const EdgeInsets.all(10),
+            ),
+            child: GridView.count(
+              crossAxisCount: 5,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              childAspectRatio: 0.85,
+              children: menuItems.map((item) {
+                return InkWell(
+                  onTap: () => Navigator.pushNamed(context, item['route']),
+                  child: _BottomIcon(
+                    image: item['image'],
+                    label: item['label'],
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFFBF7F0),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+              // HEADER
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Announcements:',
-                            style: TextStyle(
-                                fontSize: 24
-                            ),
-                          )
-                      ),
+                      Image.asset('assets/images/LOGO.png', height: 30),
+                      const SizedBox(width: 5),
 
-                      Row(
-                        children: [
-                          Icon(Icons.add),
-                          Icon(Icons.edit),
-                          Icon(Icons.delete),
-                        ],
-                      )
-                    ],
-                  ),
-
-                  Text('Power outage notice: Scheduled maintenance on Oct. 17, 1-3PM. Expect temporary interruption!'),
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/announcement');
-                          },
-                          child: Text('>')
-                      )
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 2),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Overview:',
-                        style: TextStyle(
-                            fontSize: 24
+                      Baseline(
+                        baseline: 32,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          "Hello, Mngr. $managerName!",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Urbanist',
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF4E2F1A),
+                          ),
                         ),
-                      )
-                  ),
-                  Table(
-                    children: [
-                      TableRow(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Total Tenants'),
-                                Text('20')
-                              ],
-                            ),
-                            ElevatedButton(
-                                onPressed: () => Navigator.pushNamed(context, '/manager-add-tenant'),
-                                child: Center(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(Icons.add),
-                                      Text('Add Tenant')
-                                    ],
-                                  ),
-                                )
-                            )
-                          ]
                       ),
-                      TableRow(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Pending Payments'),
-                                Text('Php 18,450')
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Pending Reports'),
-                                Text('5')
-                              ],
-                            ),
-                          ]
-                      )
                     ],
                   ),
-                  Table(
-                    children: List.generate(
-                      (menuItems.length / 4).ceil(), // number of rows
-                          (rowIndex) {
-                        final int startIndex = rowIndex * 4;
-                        final int endIndex = (startIndex + 4).clamp(0, menuItems.length);
-                        final rowItems = menuItems.sublist(startIndex, endIndex);
 
-                        // Fill empty cells if less than 4 items
-                        while (rowItems.length < 4) {
-                          rowItems.add({'icon': null, 'label': ''});
-                        }
-
-                        return TableRow(
-                          children: rowItems.map((item) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: InkWell(
-                                onTap: () => Navigator.pushNamed(context, item['route']),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    if (item['icon'] != null) Icon(item['icon'], size: 50),
-                                    if ((item['label'] ?? '').isNotEmpty)
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 4),
-                                        child: Text(
-                                          item['label'],
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              )
-                            );
-                          }).toList(),
-                        );
-                      },
-                    ),
-                  )
+                  const Padding(
+                    padding: EdgeInsets.only(right: 4),
+                    child: Icon(Icons.notifications,
+                        size: 30, color: Colors.black87),
+                  ),
                 ],
               ),
-            ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: ManagerHelper.buildNavItems(context)
-            ),
+
+              const SizedBox(height: 24),
+
+              //announcements
+              softCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Announcements:',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontFamily: 'Urbanist',
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF4E2F1A),
+                              ),
+                            ),
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.add, color: Color(0xFF4E2F1A)),
+                            Icon(Icons.edit, color: Color(0xFF4E2F1A)),
+                            Icon(Icons.delete, color: Color(0xFF4E2F1A)),
+                          ],
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "Power outage notice: Scheduled maintenance on Oct. 17, 1–3 PM. Expect temporary interruption!",
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'Urbanist',
+                          fontWeight: FontWeight.w500,
+                          height: 1.4,
+                          color: Color(0xFF222222)),
+                    ),
+                    const SizedBox(height: 16),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: IconButton(
+                        onPressed: () =>
+                            Navigator.pushNamed(context, '/announcement'),
+                        icon: const Icon(Icons.arrow_forward_ios_rounded),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // dashbord overview card
+              dashboardOverviewCard(context),
+                  //to be improved idk how to fix this
+                  const SizedBox(height: 150),
+            ],
+          ),
+        ),
+        // nav bar should be fixed at bottom
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: SafeArea(
+                bottom: true,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: 370,
+                    height: 80,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(40),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.20),
+                          blurRadius: 20,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: ManagerHelper.buildNavItems(context),
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
+    );
+  }
+}
+
+class _BottomIcon extends StatelessWidget {
+  final String image;
+  final String label;
+
+  const _BottomIcon({required this.image, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Image.asset(image, width: 40, height: 40),
+        const SizedBox(height: 6),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 12,
+            fontFamily: 'Urbanist',
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF222222),
+          ),
+        ),
+      ],
     );
   }
 }

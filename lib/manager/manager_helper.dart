@@ -3,29 +3,50 @@ import 'package:flutter/material.dart';
 class ManagerHelper {
   static final List<Map<String, dynamic>> navItems = [
     {'icon': Icons.home, 'label': 'Home', 'route': '/manager-dashboard'},
-    {'icon': Icons.person_add, 'label': 'Add Tenant', 'route': '/manager-add-tenant'},
-    {'icon': Icons.error_outline, 'label': 'Reports', 'route': '/manager-reports'},
-    {'icon': Icons.account_circle, 'label': 'Profile', 'route': '/manager-profile'},
+    {
+      'icon': Icons.message,
+      'label': 'Inbox',
+      'route': '/manager-inbox'
+    },
+    {
+      'icon': Icons.payments,
+      'label': 'Transactions',
+      'route': '/manager-transactions'
+    },
+    {
+      'icon': Icons.account_circle,
+      'label': 'Profile',
+      'route': '/manager-profile'
+    },
   ];
 
   static List<Widget> buildNavItems(BuildContext context) {
     return navItems.map((item) {
-      return Material(
-        borderRadius: BorderRadius.circular(30),
+      return Expanded(
         child: InkWell(
           borderRadius: BorderRadius.circular(30),
           onTap: () => Navigator.pushNamed(context, item['route']),
-          child: SizedBox(
-            width: 80,
-            height: 60,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(item['icon'], size: 30),
+                Icon(
+                  item['icon'],
+                  size: 35,
+                  color: Color(0xFF222222),
+                ),
+                const SizedBox(height: 2),
                 Text(
                   item['label'],
                   textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontFamily: 'Urbanist',
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF222222),
+                    height: 1.1,
+                  ),
                 ),
               ],
             ),

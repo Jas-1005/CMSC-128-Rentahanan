@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -128,28 +127,14 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => _isLoading = true);
 
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(
         email: email.trim(),
         password:password,
       );
 
-      final userID = userCredential.user!.uid;
       if(!mounted) return;
-
-
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userID)
-          .get();
-
-      if (userDoc.exists){
-        var userData = userDoc.data() as Map<String, dynamic>;
-        String userRole = userData['role'];
-        Navigator.pushReplacementNamed(context, '/$userRole-dashboard');
-        return;
-      }
-
+      Navigator.pushReplacementNamed(context, '/manager-dashboard');
     } on FirebaseAuthException catch (e){
       String displayMessage;
       if (e.code == 'network-request-failed'){
@@ -186,7 +171,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: const Color(0xFFFBF7F0), // match your design background
       body: SafeArea(
@@ -224,47 +208,11 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-
                   Image.asset(
                     'assets/images/LOGO.png',
                     height: 55,
                   ),
                 ],
-              ),
-              const SizedBox(height: 30),
-              Container(
-                //decoration for form fields
-                height: 55,
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                  borderRadius: BorderRadius.circular(30),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.10),
-                      blurRadius: 12,
-                      offset: const Offset(0, 6),
-                    )
-                  ],
-                ),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Enter email',
-                    hintStyle: TextStyle(
-                        fontFamily: 'Urbanist',
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black.withOpacity(0.3)
-                    ),
-                    border: InputBorder.none, //hide input border
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 18),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) return 'Enter your email';
-                    if (!value.contains('@') || !value.contains('.')) return 'Invalid email';
-                    return null;
-                  },
-                  onSaved: (value) => email = value!,
-                ),
               ),
               const SizedBox(height: 20),
               // FORM
