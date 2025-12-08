@@ -13,7 +13,7 @@ class ManagerDashboardPage extends StatefulWidget {
 class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
   static final List<Map<String, dynamic>> menuItems = [
     {'image': 'assets/images/manageTenants.png', 'label': 'Manage\nTenants', 'route': '/manager-manage-tenants'},
-    {'image': 'assets/images/inputDues.png', 'label': 'Input\nDues', 'route': '/manager-view-payment'}, //theres a problem with imput tenant dues
+    {'image': 'assets/images/inputDues.png', 'label': 'Input\nDues', 'route': '/manager-input-tenant-due', 'tenantID': "T1234",}, //theres a problem with imput tenant dues
     {'image': 'assets/images/approvePayments.png', 'label': 'Approve\nPayment', 'route': '/manager-tenant-requests'},
     {'image': 'assets/images/aboutPage.png', 'label': 'About', 'route': '/manager-about'}, //where is about page?
     {'image': 'assets/images/reportsPage.png', 'label': 'Reports', 'route': '/manager-view-reports'},
@@ -268,7 +268,17 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
               childAspectRatio: 0.85,
               children: menuItems.map((item) {
                 return InkWell(
-                  onTap: () => Navigator.pushNamed(context, item['route']),
+                  onTap: () => {
+                    if (item['tenantID'] != null){
+                      Navigator.pushNamed(
+                        context,
+                        item['route'],
+                        arguments: item['tenantID'],   // <-- passes tenantID
+                      )
+                    } else {
+                      Navigator.pushNamed(context, item['route'])
+                    }
+                  },
                   child: _BottomIcon(
                     image: item['image'],
                     label: item['label'],
