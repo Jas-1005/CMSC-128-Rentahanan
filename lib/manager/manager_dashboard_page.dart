@@ -11,14 +11,15 @@ class ManagerDashboardPage extends StatefulWidget {
 }
 
 class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
+  /*
   static final List<Map<String, dynamic>> menuItems = [
     {'image': 'assets/images/manageTenants.png', 'label': 'Tenants', 'route': '/manager-manage-tenants'},
-    {'image': 'assets/images/inputDues.png', 'label': 'Input\nDues', 'route': '/manager-input-tenant-due', 'tenantID': "T1234",}, //theres a problem with imput tenant dues
-    {'image': 'assets/images/approvePayments.png', 'label': 'Approve\nPayment', 'route': '/manager-tenant-requests'},
-    {'image': 'assets/images/aboutPage.png', 'label': 'About', 'route': '/manager-about'}, //where is about page?
+    {'image': 'assets/images/inputDues.png', 'label': 'Input Dues', 'route': '/manager-input-tenant-due', 'tenantID': "T1234",}, //theres a problem with imput tenant dues
+    {'image': 'assets/images/approvePayments.png', 'label': 'Approve\nPayments', 'route': '/manager-tenant-requests'},
     {'image': 'assets/images/reportsPage.png', 'label': 'Reports', 'route': '/manager-view-reports'},
+    {'image': 'assets/images/aboutPage.png', 'label': 'About', 'route': '/manager-about'}, //where is about page?
   ];
-
+*/
   String managerName = "";
   bool _isLoading = true;
 
@@ -96,16 +97,16 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
     );
   }
 
-// two cards for announcements and dashboard overview
+// card for announcements
   Widget softCard({required Widget child}) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: Colors.black.withOpacity(0.10),
             blurRadius: 12,
             offset: const Offset(0, 6),
           )
@@ -114,6 +115,8 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
       child: child,
     );
   }
+
+  //card for dashboard overview
 
   Widget dashboardOverviewCard(BuildContext context) {
     return Container(
@@ -136,10 +139,7 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
             padding: const EdgeInsets.all(24),
             decoration: const BoxDecoration(
               color: Color(0xFF3A2212),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
+              borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,9 +162,9 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
-                        Text("TOTAL TENANTS",
+                        Text("Total Tenants",
                             style: TextStyle(
-                                color: Colors.white70,
+                                color: Colors.white,
                               fontFamily: 'Urbanist',
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -184,7 +184,7 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
 
                     ElevatedButton(
                       onPressed: () =>
-                          Navigator.pushNamed(context, '/manager-add-tenant'),
+                          Navigator.pushNamed(context, '/manager-tenant-requests'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         foregroundColor: Colors.black,
@@ -199,7 +199,7 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
                           "+ Add Tenant",
                         style: TextStyle(
                           fontFamily: 'Urbanist',
-                          fontSize: 20,
+                          fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -212,13 +212,13 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
                 // Row 2
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("PENDING PAYMENTS",
+                        Text("Pending Payments",
                             style: TextStyle(
-                                color: Colors.white70,
+                                color: Colors.white,
                               fontFamily: 'Urbanist',
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
@@ -238,16 +238,48 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("PENDING REPORTS",
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 16,
-                              fontFamily: 'Urbanist',
-                              fontWeight: FontWeight.w600,
-                            )),
-                        SizedBox(height: 6),
-                        //sample only
-                        Text(
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                             Text(
+                              "Pending Reports",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontFamily: 'Urbanist',
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            // view button (compact)
+                            ElevatedButton(
+                              onPressed: () =>
+                                  Navigator.pushNamed(context, '/manager-reports'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.black,
+                                elevation: 0,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 6, vertical: 2),
+                                minimumSize: const Size(36, 20),
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                ),
+                              ),
+                              child: const Text(
+                                "View",
+                                style: TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                         SizedBox(height: 6),
+                         Text(
                           "5",
                           style: TextStyle(
                               fontSize: 28,
@@ -262,7 +294,7 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
               ],
             ),
           ),
-
+/*
           // bottom white section
           Container(
             width: double.infinity,
@@ -302,6 +334,7 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
               }).toList(),
             ),
           ),
+          */
         ],
       ),
     );
@@ -309,7 +342,7 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF3F1EC),
+      backgroundColor: const Color(0xFFFBF7F0),
       body: SafeArea(
         child: Stack(
           children: [
@@ -319,7 +352,6 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Main content with bottom padding for navbar
-              // HEADER
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -327,19 +359,14 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset('assets/images/LOGO.png', height: 30),
-                      const SizedBox(width: 5),
-
-                      Baseline(
-                        baseline: 32,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          "Hello, Mngr. $managerName!",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'Urbanist',
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF4E2F1A),
-                          ),
+                      const SizedBox(width: 80),
+                      Text(
+                        "Hello, manager!",
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Urbanist',
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF4E2F1A),
                         ),
                       ),
                     ],
@@ -353,8 +380,72 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
                 ],
               ),
 
-              const SizedBox(height: 24),
+                  const SizedBox(height: 24),
+                  dashboardOverviewCard(context),
 
+              const SizedBox(height: 24),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.43,
+                        child: DashboardButton(
+                          image: 'assets/images/manageTenants.png',
+                          title: "Manage\nTenants",
+                          //subtitle: "Add, edit, and delete tenants here.",
+                          onTap: () {
+                            Navigator.pushNamed(context, '/manager-manage-tenants');
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.43,
+                        child: DashboardButton(
+                          image: 'assets/images/approvePayments.png',
+                          title: "Approve\nPayments",
+                          //subtitle: "Approve cash payments here.",
+                          onTap: () {
+                            Navigator.pushNamed(context, '/manager-approve-payments');
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.43,
+                        child: DashboardButton(
+                          image: 'assets/images/inputDues.png',
+                          title: "Input Dues",
+                          //subtitle: "Add tenants rent dues here.",
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context, '/manager-input-tenant-due',
+                              arguments: {
+                              'tenantID': 'T1234',
+                            },
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.43,
+                        child: DashboardButton(
+                          image: 'assets/images/payments.png',
+                          title: "Transactions",
+                          //subtitle: "Check all approved transactions here.",
+                          onTap: () {
+                            Navigator.pushNamed(context, '/manager-transactions');
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+
+              const SizedBox(height: 24),
               //announcements
               softCard(
                 child: Column(
@@ -371,22 +462,23 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
                                 fontSize: 22,
                                 fontFamily: 'Urbanist',
                                 fontWeight: FontWeight.w600,
-                                color: Color(0xFF3B2418),
+                                color: Color(0xFF222222),
                               ),
                             ),
                         ),
                         Row(
                           children: [
                             _roundedIconButton(Icons.add),
-                            const SizedBox(width: 6),
+                            const SizedBox(width:3),
                             _roundedIconButton(Icons.edit),
-                            const SizedBox(width: 6),
+                            const SizedBox(width: 3),
                             _roundedIconButton(Icons.delete),
                           ],
                         ),
                       ],
                     ),
                     const SizedBox(height: 10),
+                    //sample only
                     const Text(
                       "Power outage notice: Scheduled maintenance on Oct. 17, 1–3 PM. Expect temporary interruption!",
                       style: TextStyle(
@@ -396,7 +488,7 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
                           height: 1.4,
                           color: Color(0xFF222222)),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 5),
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
@@ -424,11 +516,11 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
                 ),
               ),
 
-              const SizedBox(height: 24),
 
-              // dashbord overview card
-              dashboardOverviewCard(context),
-                  const SizedBox(height: 150),
+
+              // dashboard overview card
+
+              const SizedBox(height: 150),
             ],
           ),
         ),
@@ -471,29 +563,85 @@ class _ManagerDashboardPageState extends State<ManagerDashboardPage> {
   }
 }
 
-class _BottomIcon extends StatelessWidget {
+class DashboardButton extends StatelessWidget {
   final String image;
-  final String label;
+  final String title;
+  //final String subtitle;
+  final VoidCallback onTap;
 
-  const _BottomIcon({required this.image, required this.label});
-
+  const DashboardButton({
+    super.key,
+    required this.image,
+    required this.title,
+    //required this.subtitle,
+    required this.onTap,
+  });
+  
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Image.asset(image, width: 48, height: 48),
-        const SizedBox(height: 6),
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 12,
-            fontFamily: 'Urbanist',
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF222222),
-          ),
+    return InkWell(
+      borderRadius: BorderRadius.circular(10),
+      onTap: onTap,
+      child: Container(
+        height: 84, // explicit height for compact button
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ],
         ),
-      ],
+        child: Row(
+          children: [
+            Image.asset(
+              image,
+              height: 28,
+              width: 28,
+              fit: BoxFit.contain,
+              color: Colors.black87,
+            ),
+            const SizedBox(width: 15),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'Fredoka',
+                      fontWeight: FontWeight.w500,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 6),
+                  /*
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'Fredoka',
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black.withOpacity(0.6),
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+
+                   */
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
