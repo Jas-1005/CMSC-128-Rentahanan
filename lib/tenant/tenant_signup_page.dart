@@ -228,7 +228,7 @@ class _TenantSignupPageState extends State<TenantSignupPage> {
                     onSaved: (value) => boardingHouseCode = value!,
                   ),
                   buildInfoTextField(
-                    label: 'Boarding House Code',
+                    label: 'Contact Number',
                       validator: (value) {
                         if (value == null || value.isEmpty) return 'Enter your contact number.';
                         if (!RegExp(r'^09\d{9}$').hasMatch(value)) {
