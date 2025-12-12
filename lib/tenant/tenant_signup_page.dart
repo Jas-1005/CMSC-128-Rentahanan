@@ -21,7 +21,7 @@ class _TenantSignupPageState extends State<TenantSignupPage> {
   String boardingHouseCode = '';
   String contactNumber = '';
   String errorMessage = '';
-  bool isTenantConfirmed = false;
+  String isTenantConfirmed = "pending";
   List<bool> _obscureText = [true, true];
   bool _isLoading = false;
   String boardingHouseID = '';
@@ -150,8 +150,9 @@ class _TenantSignupPageState extends State<TenantSignupPage> {
     required String label,
     required String? Function(String?) validator,
     required void Function(String?) onSaved,
+    required int stateIndex,
     TextInputType keyboardType = TextInputType.text,
-    bool obscureText = true,
+
   }) {
     return TextFormField(
       decoration: InputDecoration(
@@ -159,10 +160,11 @@ class _TenantSignupPageState extends State<TenantSignupPage> {
         hintText: label,
         border: const OutlineInputBorder(),
         suffixIcon: IconButton(
-          icon: Icon(obscureText ? Icons.visibility_off : Icons.visibility),
-          onPressed: () => setState(() => obscureText = !obscureText),
+          icon: Icon(_obscureText[stateIndex] ? Icons.visibility_off : Icons.visibility),
+          onPressed: () => setState(() => _obscureText[stateIndex] = !_obscureText[stateIndex]),
         ),
       ),
+      obscureText: _obscureText[stateIndex],
       keyboardType: keyboardType,
       validator: validator,
       onSaved: onSaved,
@@ -204,20 +206,22 @@ class _TenantSignupPageState extends State<TenantSignupPage> {
                     onSaved: (value) => email = value!,
                   ),
                   buildPasswordTextField(
-                      label: 'Password',
-                      validator: (value) {
-                        if (value == null || value.isEmpty) return 'Enter your password';
-                        return null;
-                      },
-                      onSaved: (value) => password = value!
+                    label: 'Password',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) return 'Enter your password';
+                      return null;
+                    },
+                    onSaved: (value) => password = value!,
+                    stateIndex: 0
                   ),
                   buildPasswordTextField(
-                      label: 'Confirm Password',
-                      validator: (value) {
-                        if (value == null || value.isEmpty) return 'Confirm your password';
-                        return null;
-                      },
-                      onSaved: (value) => confirmPassword = value!
+                    label: 'Confirm Password',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) return 'Confirm your password';
+                      return null;
+                    },
+                    onSaved: (value) => confirmPassword = value!,
+                    stateIndex: 1
                   ),
                   buildInfoTextField(
                     label: 'Boarding House Code',
