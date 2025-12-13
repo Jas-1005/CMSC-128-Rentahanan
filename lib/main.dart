@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         // '/manager-signup': (context) => const ManagerSignupPage(),
         // '/tenant-login': (context) => const TenantLoginPage(),
         // '/tenant-signup': (context) => const TenantSignupPage(),
+        // '/tenant-denied': (context) => const TenantDeniedPage(),
         '/tenant-unconfirmed': (context) => const TenantUnconfirmedPage(),
         '/manager-dashboard': (context) => const ManagerDashboardPage(),
         '/manager-manage-tenants': (context) => const ManagerManageTenantsPage(),

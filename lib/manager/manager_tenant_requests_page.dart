@@ -12,8 +12,8 @@ class ManagerTenantRequestsPage extends StatefulWidget {
 }
 
 class _ManagerTenantRequestsPageState extends State<ManagerTenantRequestsPage> {
-  late List<Tenant>  pendingTenants;
-  late List<Tenant>  rejectedTenants;
+  List<Tenant>  pendingTenants = [];
+  List<Tenant>  rejectedTenants = [];
 
   Future<void> fetchUnapprovedTenants() async {
     var selfDoc = await FirebaseFirestore.instance

@@ -144,6 +144,15 @@ class _LoginPageState extends State<LoginPage> {
       if (userDoc.exists){
         var userData = userDoc.data() as Map<String, dynamic>;
         String userRole = userData['role'];
+        if(userRole == 'tenant' && userData['confirmedByManager'] == 'pending') {
+          if (!mounted) return;
+          Navigator.pushReplacementNamed(context, '/tenant-unconfirmed');
+          return;
+        } else if (userRole == 'tenant' && userData['confirmedByManager'] == 'denied') {
+          if (!mounted) return;
+          Navigator.pushReplacementNamed(context, '/tenant-denied');
+          return;
+        }
         Navigator.pushReplacementNamed(context, '/$userRole-dashboard');
         return;
       }
