@@ -12,7 +12,11 @@ class ManagerManageTenantsPage extends StatefulWidget {
 }
 
 class _ManagerManageTenantsPageState extends State<ManagerManageTenantsPage> {
+<<<<<<< HEAD
   List<Tenant> approvedTenants = [];
+=======
+  late List<Tenant> approvedTenants;
+>>>>>>> 6d8dabd (Manage tenants and view tenants info progress)
 
   Future <void> fetchTenants() async { //firebase fetch info from manager info
     var selfDoc = await FirebaseFirestore.instance

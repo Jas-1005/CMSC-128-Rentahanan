@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:rentahanan/entities/tenant.dart';
+=======
+import 'package:flutter/services.dart';
+import 'package:flutter/src/material/icons.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rentahanan/entities/tenant.dart';
+import 'manager_helper.dart';
+>>>>>>> 6d8dabd (Manage tenants and view tenants info progress)
 
 
 class ManagerViewTenantInfoPage extends StatefulWidget {
