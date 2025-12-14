@@ -34,6 +34,8 @@ class MyApp extends StatelessWidget {
         // '/tenant-login': (context) => const TenantLoginPage(),
         // '/tenant-signup': (context) => const TenantSignupPage(),
         // '/tenant-denied': (context) => const TenantDeniedPage(),
+        '/tenant-pay-now': (context) => const TenantPayNowPage(),
+        '/tenant-pay-with-cash': (context) => const TenantPayWithCashPage(),
         '/tenant-unconfirmed': (context) => const TenantUnconfirmedPage(),
         '/manager-dashboard': (context) => const ManagerDashboardPage(),
         '/manager-manage-tenants': (context) => const ManagerManageTenantsPage(),

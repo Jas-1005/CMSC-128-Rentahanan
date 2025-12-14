@@ -12,7 +12,7 @@ class TenantDashboardPage extends StatefulWidget {
 
 class _TenantDashboardPageState extends State<TenantDashboardPage> {
   static final List<Map<String, dynamic>> menuItems = [
-    {'icon': Icons.payment, 'label': 'Pay'},
+    {'icon': Icons.payment, 'label': 'Pay', 'route': '/tenant-pay-now'},
     {'icon': Icons.calendar_month, 'label': 'Dues'},
     {'icon': Icons.cloud_upload_outlined, 'label': 'Upload Proof'},
     {'icon': Icons.error_outline, 'label': 'Report Issue'},
@@ -89,7 +89,9 @@ class _TenantDashboardPageState extends State<TenantDashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Tenant Dashboard')),
-      body: Padding(
+      body: _isLoading
+      ? const Center(child: CircularProgressIndicator())
+      : Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -232,22 +234,26 @@ class _TenantDashboardPageState extends State<TenantDashboardPage> {
                           children: rowItems.map((item) {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  if (item['icon'] != null) Icon(item['icon'], size: 50),
-                                  if ((item['label'] ?? '').isNotEmpty)
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 4),
-                                      child: Text(
-                                        item['label'],
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 10,
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(30),
+                                onTap: () => Navigator.pushNamed(context, item['route']),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    if (item['icon'] != null) Icon(item['icon'], size: 50),
+                                    if ((item['label'] ?? '').isNotEmpty)
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 4),
+                                        child: Text(
+                                          item['label'],
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                ],
+                                  ],
+                                ),
                               ),
                             );
                           }).toList(),
