@@ -12,11 +12,8 @@ class ManagerManageTenantsPage extends StatefulWidget {
 }
 
 class _ManagerManageTenantsPageState extends State<ManagerManageTenantsPage> {
-<<<<<<< HEAD
   List<Tenant> approvedTenants = [];
-=======
-  late List<Tenant> approvedTenants;
->>>>>>> 6d8dabd (Manage tenants and view tenants info progress)
+  //late List<Tenant> approvedTenants;
 
   Future <void> fetchTenants() async { //firebase fetch info from manager info
     var selfDoc = await FirebaseFirestore.instance
@@ -315,11 +312,12 @@ class _ManagerManageTenantsPageState extends State<ManagerManageTenantsPage> {
                           arguments: tenant,
                         ),
                         style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 34),
                           backgroundColor: const Color(0xFFEFEBE8),
                           foregroundColor: Colors.white,
                           elevation: 6,
                           shadowColor: Colors.black54,
-                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
@@ -335,7 +333,7 @@ class _ManagerManageTenantsPageState extends State<ManagerManageTenantsPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 15),
                     Flexible(
                       child: ElevatedButton(
                         onPressed: () => Navigator.pushNamed(
@@ -344,11 +342,12 @@ class _ManagerManageTenantsPageState extends State<ManagerManageTenantsPage> {
                           arguments: tenant,
                         ),
                         style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 34),
                           backgroundColor: const Color(0xFF3A2212),
                           foregroundColor: Colors.white,
-                          elevation: 6,
+                          elevation: 10,
                           shadowColor: Colors.black54,
-                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),

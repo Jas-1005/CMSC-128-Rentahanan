@@ -12,13 +12,8 @@ class ManagerTenantRequestsPage extends StatefulWidget {
 }
 
 class _ManagerTenantRequestsPageState extends State<ManagerTenantRequestsPage> {
-<<<<<<< HEAD
   List<Tenant>  pendingTenants = [];
   List<Tenant>  rejectedTenants = [];
-=======
-  late List<Tenant>  pendingTenants;
-  late List<Tenant>  rejectedTenants;
->>>>>>> 6d8dabd (Manage tenants and view tenants info progress)
 
   Future<void> fetchUnapprovedTenants() async {
     var selfDoc = await FirebaseFirestore.instance
@@ -128,8 +123,26 @@ class _ManagerTenantRequestsPageState extends State<ManagerTenantRequestsPage> {
                 unselectedLabelColor: Colors.grey,
                 indicatorColor: Color(0xFF3B2418),
                 tabs: [
-                  Tab(text: "Pending"),
-                  Tab(text: "Denied"),
+                  Tab(
+                    child: Text(
+                      "Pending",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Urbanist',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      "Denied",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Urbanist',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               
