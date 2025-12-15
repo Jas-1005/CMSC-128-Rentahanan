@@ -285,7 +285,7 @@ class _ManagerManageTenantsPageState extends State<ManagerManageTenantsPage> {
                   ),
                 ),
                 Text(
-                  tenant.roomName,
+                  "${tenant.roomName} : ${tenant.roomType}",
                   style: const TextStyle(
                     fontSize: 13,
                     color: Colors.black54,

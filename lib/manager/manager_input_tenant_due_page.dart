@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/material/icons.dart';
 import 'package:flutter/services.dart';
-import 'manager_helper.dart';
+import 'package:rentahanan/entities/tenant.dart';
 
 
 class ManagerInputTenantDuePage extends StatefulWidget {
@@ -12,6 +11,10 @@ class ManagerInputTenantDuePage extends StatefulWidget {
 }
 
 class _ManagerInputTenantDuePageState extends State<ManagerInputTenantDuePage> {
+  String? selectedType;
+  List<String> dueTypes = ['Rent', 'Water', 'Internet', 'Custom'];
+  TextEditingController newTypeController = TextEditingController();
+
   final newDueController = TextEditingController();
   final noteController = TextEditingController();
   final dateController = TextEditingController();
@@ -43,10 +46,10 @@ class _ManagerInputTenantDuePageState extends State<ManagerInputTenantDuePage> {
 
   @override
   Widget build(BuildContext context) {
-    final tenantID = ModalRoute.of(context)!.settings.arguments as String;
+    final tenant = ModalRoute.of(context)!.settings.arguments as Tenant;
 
     return Scaffold(
-      //appBar: AppBar(title: Text("Add Tenant Due (id: $tenantID)")),
+      appBar: AppBar(title: Text("Add Tenant Due (id: ${tenant.fullName})")),
       body: Column(
         children: [
           Container(
@@ -60,8 +63,8 @@ class _ManagerInputTenantDuePageState extends State<ManagerInputTenantDuePage> {
             ),
             child: Column(
               children: [
-                Text("Get tenant name"),
-                Text("Get room number and room type"),
+                Text(tenant.fullName),
+                Text("${tenant.roomName} : ${tenant.roomType}"),
                 Table(
                   children: [
                     TableRow(
@@ -143,6 +146,36 @@ class _ManagerInputTenantDuePageState extends State<ManagerInputTenantDuePage> {
               ],
             ),
           ),
+          Column(
+            children: [
+              DropdownButton<String>(
+                value: selectedType,
+                hint: Text('Select due type'),
+                items: dueTypes
+                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedType = value;
+                  });
+                },
+              ),
+              if (selectedType == 'Custom')
+                TextField(
+                  controller: newTypeController,
+                  decoration: InputDecoration(hintText: 'Enter new due type'),
+                ),
+              ElevatedButton(
+                onPressed: () {
+                  final type = selectedType == 'Custom'
+                      ? newTypeController.text
+                      : selectedType;
+                  // Save `type` to accountabilities & optionally accountibility_types collection
+                },
+                child: Text('Add Accountability'),
+              ),
+            ],
+          ),
           Container(
             width: double.infinity,
             margin: EdgeInsets.all(20),
@@ -163,6 +196,7 @@ class _ManagerInputTenantDuePageState extends State<ManagerInputTenantDuePage> {
                   children: [
                     TableRow(
                       children: [
+
                         Text("Due Type:"),
                         DropdownButton<String>(
                           value: dueType,
