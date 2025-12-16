@@ -3,14 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class TenantUnconfirmedPage extends StatefulWidget {
-  const TenantUnconfirmedPage({super.key});
+class TenantAwaitingPage extends StatefulWidget {
+  const TenantAwaitingPage({super.key});
 
   @override
-  State<TenantUnconfirmedPage> createState() => _TenantUnconfirmedPageState();
+  State<TenantAwaitingPage> createState() => _TenantAwaitingPageState();
 }
 
-class _TenantUnconfirmedPageState extends State<TenantUnconfirmedPage> {
+class _TenantAwaitingPageState extends State<TenantAwaitingPage> {
   late final String userId;
   late final Stream<DocumentSnapshot> tenantStream;
 

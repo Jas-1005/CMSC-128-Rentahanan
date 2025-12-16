@@ -88,8 +88,8 @@ class _TenantProfilePageState extends State<TenantProfilePage> {
 
 
       // Corrected: Assuming boardingHouseID is a String
-      final String? boardingHouseId = tenantData["boardingHouseID"] as String?;
-      print("tenant's boardingHouseID: $boardingHouseId"); // Crucial print
+      final String? boardingHouseId = tenantData["boardingHouseId"] as String?;
+      print("tenant's boardingHouseId: $boardingHouseId"); // Crucial print
 
       if (boardingHouseId != null && boardingHouseId.isNotEmpty) {
         final boardingHouseDoc = await FirebaseFirestore.instance
