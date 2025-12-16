@@ -24,7 +24,7 @@ class _TenantSignupPageState extends State<TenantSignupPage> {
   String isTenantConfirmed = "pending";
   List<bool> _obscureText = [true, true];
   bool _isLoading = false;
-  String boardingHouseID = '';
+  String boardingHouseId = '';
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _TenantSignupPageState extends State<TenantSignupPage> {
       if (bHCodeQuery.docs.isNotEmpty) {
         var bHCodeSnapshot = bHCodeQuery.docs.first;
         print("Boarding house ID: ${bHCodeSnapshot.id}");
-        boardingHouseID = bHCodeSnapshot.id;
+        boardingHouseId = bHCodeSnapshot.id;
         return true;
       } else {
         print('No bh found with code: $tenantShareCode');
@@ -84,7 +84,7 @@ class _TenantSignupPageState extends State<TenantSignupPage> {
       String userID = userCredential.user!.uid;
 
       await FirebaseFirestore.instance.collection('users').doc(userID).set({
-        'boardingHouseId': boardingHouseID,
+        'boardingHouseId': boardingHouseId,
         'fullName': fullName,
         'email': email,
         'contactNumber': contactNumber,
@@ -92,6 +92,28 @@ class _TenantSignupPageState extends State<TenantSignupPage> {
         'role': role,
         'createdAt': FieldValue.serverTimestamp(),
       });
+
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userID)
+          .get();
+
+      if (userDoc.exists){
+        var userData = userDoc.data() as Map<String, dynamic>;
+        String userRole = userData['role'];
+        if(userRole == 'tenant' && userData['confirmedByManager'] == 'approved') {
+          if (!mounted) return;
+          Navigator.pushReplacementNamed(context, '/tenant-dashboard');
+          return;
+        } else if (userRole == 'tenant' && userData['confirmedByManager'] == 'rejected') {
+          if (!mounted) return;
+          Navigator.pushReplacementNamed(context, '/tenant-rejected');
+          return;
+        }
+        Navigator.pushReplacementNamed(context, '/tenant-awaiting');
+        return;
+      }
+
 
       if(!mounted) return;
       //make a firestore query here if tennat is confirmed by manager, if tennat confirmed, go to dashboard,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/icons.dart';
 import 'package:flutter/services.dart';
+import 'package:rentahanan/entities/payment.dart';
 
 
 class TenantPayNowPage extends StatefulWidget {
@@ -11,12 +12,16 @@ class TenantPayNowPage extends StatefulWidget {
 }
 
 class _TenantPayNowPageState extends State<TenantPayNowPage> {
+  List<Payment> paymentHistory = [];
+
   static final List<Map<String, dynamic>> menuItems = [
     {'icon': Icons.account_balance_wallet, 'label': 'Pay with Gcash'},
     {'icon': Icons.attach_money, 'label': 'Cash', 'route': '/tenant-pay-with-cash'},
     {'icon': Icons.account_balance, 'label': 'Pay Through Bank'},
     {'icon': Icons.public, 'label': 'OTC'},
   ];
+
+  Future<void> fetchTenantPayments() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +37,7 @@ class _TenantPayNowPageState extends State<TenantPayNowPage> {
                 Text('Hello, Tenant!')
               ],
             ),
+            const SizedBox(height: 20),
             Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black, width: 2),
@@ -96,25 +102,44 @@ class _TenantPayNowPageState extends State<TenantPayNowPage> {
                 ],
               ),
             ),
-            Container(
+            const SizedBox(height: 20),
+            Expanded(
+              child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black, width: 2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 padding: const EdgeInsets.all(10),
-                child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Payment History',
-                        style: TextStyle(
-                            fontSize: 24
-                        ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Payment History',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    const SizedBox(height: 10),
+                    Expanded(
+                      child: paymentHistory.isEmpty
+                          ? const Center(child: Text('No payments yet'))
+                          : ListView.builder(
+                        itemCount: paymentHistory.length,
+                        itemBuilder: (context, index) {
+                          final payment = paymentHistory[index];
+                          return Card(
+                            child: ListTile(
+                              title: Text(payment.date as String),
+                              subtitle: Text(payment.status),
+                              trailing: Text('₱${payment.amount}'),
+                            ),
+                          );
+                        },
                       ),
-                    )
-                )
-            )
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
           ],
         ),
       )
